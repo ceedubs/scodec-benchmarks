@@ -5,8 +5,11 @@
 ### FooBenchmark
 
 Scodec version: 1.6.0 (scodec-bits 1.0.6)
+
 Mode: avgt
+
 Cnt: 200
+
 Units: microseconds/op (lower is better)
 
 | Benchmark                |     Score |   Error  |
