@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit
 import scodec.bits.BitVector
 import scodec._
 import scodec.codecs._
-import scalaz.\/
 
 @BenchmarkMode(Array(Mode.AverageTime))
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
@@ -26,9 +25,9 @@ class FooBenchmark {
 
   val encoded: BitVector = encode.toOption.get // YOLO
 
-  assert(decode.isRight)
+  assert(decode.isSuccessful)
 
-  @Benchmark def encode: Err \/ BitVector =
+  @Benchmark def encode: Attempt[BitVector] =
     codecFoo.encode(foo)
 
   @Benchmark def toByteArray: Array[Byte] =
@@ -37,6 +36,6 @@ class FooBenchmark {
   @Benchmark def toBase64: String =
     encoded.toBase64
 
-  @Benchmark def decode: Err \/ (BitVector, Foo) =
+  @Benchmark def decode: Attempt[DecodeResult[Foo]] =
     codecFoo.decode(encoded)
 }

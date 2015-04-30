@@ -1,7 +1,10 @@
 jmhSettings
 
-libraryDependencies ++= Seq(
-  "org.typelevel" %% "scodec-core" % "1.6.0" exclude("org.typelevel", "scodec-bits"),
-  // this is pulled in by scodec-core, but the newer patch has optimizations.
-  "org.scodec" %% "scodec-bits" % "1.0.6"
-)
+scalaVersion := "2.10.5"
+
+libraryDependencies += "org.scodec" %% "scodec-core" % "1.7.1"
+
+// Shapeless 2.1.0 on Scala 2.10 requires macro paradise
+libraryDependencies ++= {
+ if (scalaBinaryVersion.value startsWith "2.10") Seq(compilerPlugin("org.scalamacros" % "paradise" % "2.0.1" cross CrossVersion.full)) else Nil
+}
