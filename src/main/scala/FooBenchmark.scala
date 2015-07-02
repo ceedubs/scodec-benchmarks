@@ -18,10 +18,10 @@ class FooBenchmark {
     (0L until 5L).toVector,
     (0L until 20L).toVector)
 
-  val vl: Codec[Vector[Long]] = vectorOfN(uint(5), int64)
+  val vl: Codec[Vector[Long]] = vectorOfN(uint8, int64)
 
   implicit val codecFoo: Codec[Foo] =
-    (variableSizeBytes(uint(5), utf8) :: vl :: vl :: vl :: vl :: vl).as[Foo]
+    (variableSizeBytes(uint8, utf8) :: vl :: vl :: vl :: vl :: vl).as[Foo]
 
   val encoded: BitVector = encode.toOption.get // YOLO
 
@@ -29,6 +29,9 @@ class FooBenchmark {
 
   @Benchmark def encode: Attempt[BitVector] =
     codecFoo.encode(foo)
+
+  @Benchmark def toByteVector: ByteVector =
+      encoded.bytes
 
   @Benchmark def toByteArray: Array[Byte] =
     encoded.toByteArray
