@@ -2,7 +2,7 @@ package ceedubs.scodecbenchmarks
 
 import org.openjdk.jmh.annotations._
 import java.util.concurrent.TimeUnit
-import scodec.bits.BitVector
+import scodec.bits.{BitVector, ByteVector}
 import scodec._
 import scodec.codecs._
 
