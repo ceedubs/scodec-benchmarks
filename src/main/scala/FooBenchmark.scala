@@ -27,6 +27,8 @@ class FooBenchmark {
 
   assert(decode.isSuccessful)
 
+  assert(toBase64 == toBase64Java)
+
   @Benchmark def encode: Attempt[BitVector] =
     codecFoo.encode(foo)
 
@@ -38,6 +40,9 @@ class FooBenchmark {
 
   @Benchmark def toBase64: String =
     encoded.toBase64
+
+  @Benchmark def toBase64Java: String =
+    java.util.Base64.getEncoder().encodeToString(encoded.toByteArray)
 
   @Benchmark def decode: Attempt[DecodeResult[Foo]] =
     codecFoo.decode(encoded)
