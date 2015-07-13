@@ -25,6 +25,8 @@ class FooBenchmark {
 
   val encoded: BitVector = encode.toOption.get // YOLO
 
+  val encodedBase64: String = encoded.toBase64
+
   assert(decode.isSuccessful)
 
   assert(toBase64 == toBase64Java)
@@ -43,6 +45,12 @@ class FooBenchmark {
 
   @Benchmark def toBase64Java: String =
     java.util.Base64.getEncoder().encodeToString(encoded.toByteArray)
+
+  @Benchmark def bitVectorFromBase64: BitVector =
+    BitVector.fromBase64(encodedBase64).get
+
+  @Benchmark def bitVectorFromBase64Java: BitVector =
+    BitVector(java.util.Base64.getDecoder.decode(encodedBase64))
 
   @Benchmark def decode: Attempt[DecodeResult[Foo]] =
     codecFoo.decode(encoded)
